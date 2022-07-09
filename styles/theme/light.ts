@@ -4,7 +4,7 @@ import { common } from './common'
 const light: DefaultTheme = {
   title: 'light',
   color: {
-    neutral: { ...common.colors.neutral },
+    neutral: { ...common },
     background: '',
     heading: '',
     body: '',

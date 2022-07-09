@@ -1,6 +1,6 @@
 import 'styled-components'
 
-type Colors = {
+export type Colors = {
   100: string
   90: string
   80: string
@@ -9,9 +9,9 @@ type Colors = {
   10: string
 }
 
-type SecondaryColors = Colors
+export type SecondaryColors = Colors
 
-type NeutralColors = Colors & {
+export type NeutralColors = Colors & {
   white: string
   black: string
 }
