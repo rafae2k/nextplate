@@ -1,4 +1,4 @@
-import { NeutralColors } from '@definitions/styled-components/style'
+import { NeutralColors } from 'types/styled-components/style'
 
 const common: NeutralColors = {
   white: '#fff',
