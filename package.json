@@ -7,9 +7,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "test": "jest",
-    "test:watch": "jest --watch",
-    "test:staged": "jest --staged",
+    "test": "jest --findRelatedTests",
+    "test:staged": "CI=true jest src --findRelatedTests --passWithNoTests",
     "cz": "czg",
     "prepare": "husky install"
   },

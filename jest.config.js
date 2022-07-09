@@ -15,7 +15,6 @@ const customJestConfig = {
   testEnvironment: 'jest-environment-jsdom',
   collectCoverage: true,
   collectCoverageFrom: ['src/**/*.ts(x)'],
-  coveragePathIgnorePatterns: ['/node_modules/', '/dist/'],
   setupFilesAfterEnv: ['<rootDir>/.jest/jest.setup.js']
 }
 
