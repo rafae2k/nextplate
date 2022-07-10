@@ -11,17 +11,14 @@ jobs:
     runs-on: ubuntu-latest
     environment: Development
     steps:
-      - name: Fetching commits
-        uses: actions/checkout@v3
+      - uses: actions/checkout@v3
         with:
           fetch-depth: 0
 
-      - name: Get pnpm cache
       -  uses: pnpm/action-setup@v2
          with:
           version: 6.32.9
 
-      - name: Setup Node 14
       - uses: actions/setup-node@v3
         with:
           node-version: '14'
@@ -39,7 +36,6 @@ jobs:
         run: |
           pnpm jest --coverage
 
-      - name: Upload coverage to Codecov
       - uses: codecov/codecov-action@v3
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
