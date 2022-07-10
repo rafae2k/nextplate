@@ -16,12 +16,12 @@ const customJestConfig = {
   collectCoverage: true,
   collectCoverageFrom: [
     'src/**/*.ts(x)?',
-    '!src/**/*.stories.ts(x)?',
-    '!src/**/*.styles.ts(x)?',
-    '!src/styles/*',
-    '!src/**/stories/*',
+    '!src/**/stories.tsx',
     '!src/**/_*.ts(x)?',
-    '!src/**/*.d.ts'
+    '!src/**/*.d.ts',
+    '!src/**/*.test.ts(x)?',
+    '!src/**/*.styles.tsx',
+    '!src/styles/**'
   ],
   setupFilesAfterEnv: ['<rootDir>/.jest/jest.setup.js']
 }
