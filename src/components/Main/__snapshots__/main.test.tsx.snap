@@ -2,6 +2,6 @@
 
 exports[`<Main/> should render the heading 1`] = `
 <h1>
-  Hello Rafo
+  Hello Rafo!
 </h1>
 `;
