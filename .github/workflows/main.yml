@@ -31,7 +31,7 @@ jobs:
         run: pnpm lint
 
       - name: Run Tests
-        run: pnpm test:staged
+        run: CI=true pnpm jest
       
       - name: Generate coverage report
         run: |
