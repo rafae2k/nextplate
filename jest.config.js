@@ -18,6 +18,7 @@ const customJestConfig = {
     'src/**/*.ts(x)?',
     '!src/**/*.stories.ts(x)?',
     '!src/**/*.styles.ts(x)?',
+    '!src/styles/*',
     '!src/**/stories/*',
     '!src/**/_*.ts(x)?',
     '!src/**/*.d.ts'
