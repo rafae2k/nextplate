@@ -5,7 +5,7 @@ import * as S from '../styles/pages/_index.styles'
 const Home: NextPage = () => {
   return (
     <S.Container>
-      <Main>Hello World</Main>
+      <Main>Hello Rafo</Main>
     </S.Container>
   )
 }
