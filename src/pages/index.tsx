@@ -1,6 +1,6 @@
 import { Main } from 'components/Main'
 import type { NextPage } from 'next'
-import * as S from './_index.styles'
+import * as S from '../styles/pages/_index.styles'
 
 const Home: NextPage = () => {
   return (
