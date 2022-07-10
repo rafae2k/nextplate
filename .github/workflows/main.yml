@@ -1,0 +1,71 @@
+name: CI
+
+on: 
+  pull_request:
+    branches:
+      - "develop"
+      - "main"
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    environment:
+      name: Development
+
+    steps:
+      - name: Fetching commits
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+        uses: pnpm/action-setup@v2
+        with:
+          version: 6.32.9
+
+      - name: Setup Node 14
+        uses: actions/setup-node@v3
+          with:
+            node-version: '14'
+            cache: 'pnpm'
+
+        run: pnpm install --frozen-lockfile
+
+      - name: Run ESLint
+        run: pnpm lint
+
+  test:
+    needs: lint
+
+    steps:
+      - name: Run Tests
+        run: pnpm test:staged
+      
+      - name: Generate coverage report
+        run: |
+          pnpm jest --coverage
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v3
+          with:
+            token: ${{ secrets.CODECOV_TOKEN }}
+
+  build:
+    
+    needs: [lint, test]
+    
+    steps:
+      - name: Build App
+        run: pnpm build
+
+  deploy:
+    environment:
+      name: Development
+
+    needs: [lint, test, build]
+
+      - uses: BetaHuhn/deploy-to-vercel-action@latest #deploy
+        with:
+          VERCEL_TOKEN: ${{ secrets.VERCEL_GITHUB_ACTIONS_TOKEN }} # Required
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} #Optional
+          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID}} #Required
+          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID}} #Required
+          PRODUCTION: false # Don't deploy to production environment
