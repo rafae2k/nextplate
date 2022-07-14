@@ -62,35 +62,21 @@ jobs:
     runs-on: ubuntu-latest
     environment:
       name: Storybook
-      url: ${{ steps.storybook-deploy.outputs.preview-url }}
+      url: ${{ steps.storybook-deploy.outputs.PREVIEW_URL }}
     steps:
       - name: Fetch commits
         uses: actions/checkout@v3
         with:
           fetch-depth: 0
-
-      - name: Setup pnpm package manager
-        uses: pnpm/action-setup@v2
-        with:
-          version: 6.32.9
-
-      - name: Setup Node
-        uses: actions/setup-node@v3
-        with:
-          node-version: '14'
-          cache: 'pnpm'
       
-      - name: Install dependencies  
-        run: pnpm install --frozen-lockfile
-
-      - name: Build Storybook
-        run: pnpm run storybook:build
-      
-      - name: Deploy Storybook to Development
+      - name: Deploy App to Development
         id: storybook-deploy
-        uses: amondnet/vercel-action@v20 #deploy
+        uses: BetaHuhn/deploy-to-vercel-action@latest 
         with:
-          vercel-token: ${{ secrets.VERCEL_TOKEN }} 
-          github-token: ${{ secrets.GITHUB_TOKEN }} 
-          vercel-org-id: ${{ secrets.VERCEL_ORG_ID}}}
-          vercel-project-id: ${{ secrets.VERCEL_STORYBOOK_PROJECT_ID}}
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID}}
+          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_STORYBOOK_PROJECT_ID}}
+          PRODUCTION: false
+          GITHUB_DEPLOYMENT_ENV: Storybook
+
