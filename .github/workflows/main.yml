@@ -10,7 +10,9 @@ on:
 jobs:
   Test_and_Build:
     runs-on: ubuntu-latest
-    environment: Development
+    environment:
+      name: Development
+      url: ${{ steps.deploy-dev.outputs.PREVIEW_URL }}
     steps:
       - name: Fetch commits
         uses: actions/checkout@v3
@@ -55,15 +57,12 @@ jobs:
           VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID}}
           PRODUCTION: false
           GITHUB_DEPLOYMENT_ENV: Development
-
-      - name: what is the app url
-        run: echo ${{ steps.deploy-dev.outputs.PREVIEW_URL }}
   
   Storybook:
     runs-on: ubuntu-latest
     environment:
       name: Storybook
-      url: ${{ steps.storybook-deploy.outputs.PREVIEW_URL }}
+      url: ${{ steps.storybook-deploy.outputs.preview-url }}
     steps:
       - name: Fetch commits
         uses: actions/checkout@v3
@@ -89,17 +88,11 @@ jobs:
       
       - name: Deploy Storybook to Development
         id: storybook-deploy
-        uses: BetaHuhn/deploy-to-vercel-action@v1 
+      - uses: amondnet/vercel-action@v20 #deploy
         with:
-          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID}}
-          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_STORYBOOK_PROJECT_ID}}
-          GITHUB_DEPLOYMENT_ENV: Storybook
-          WORKING_DIRECTORY: ./storybook-static
-          PR_LABELS: storybook
-          PRODUCTION: false
-      
-      - name: WHAT IS THE storyboook url
-        run: echo ${{ steps.storybook-deploy.outputs.PREVIEW_URL }}
+          vercel-token: ${{ secrets.VERCEL_TOKEN }} 
+          github-token: ${{ secrets.GITHUB_TOKEN }} 
+          vercel-org-id: ${{ secrets.VERCEL_ORG_ID}}}
+          vercel-project-id: ${{ secrets.VERCEL_STORYBOOK_PROJECT_ID}}
+          working-directory: ./storybook-static
       
