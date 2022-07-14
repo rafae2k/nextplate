@@ -4,6 +4,6 @@
     "silent": true
   },
   "builds": [
-    { "src": "./storybook-static", "use": "@vercel/static" }
+    { "src": "./", "use": "@vercel/static" }
   ]
 }
