@@ -6,13 +6,14 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint",
+    "lint": "next lint --max-warnings=0",
     "test": "jest --bail --watch",
-    "test:staged": "CI=true jest --bail --findRelatedTests --passWithNoTests",
+    "test:staged": "jest --bail --findRelatedTests --passWithNoTests",
+    "test:unit": "jest --bail --ci --coverage --passWithNoTests",
     "cz": "czg",
     "prepare": "husky install",
     "storybook": "start-storybook -s ./public -p 6006",
-    "build-storybook": "build-storybook -s ./public",
+    "storybook:build": "build-storybook -s ./public",
     "generate": "yarn plop --plopfile ./generators/plopfile.js"
   },
   "dependencies": {

@@ -1,14 +1,16 @@
-import { DefaultTheme } from 'styled-components'
-import { common } from './common'
+import { ThemeColors } from 'types/styled-components/style'
 
-const dark: DefaultTheme = {
+const dark: ThemeColors = {
   title: 'dark',
-  color: {
-    neutral: { ...common },
-    background: '',
-    heading: '',
-    body: '',
+  colors: {
+    background: '#1B6921',
+    text: {
+      body: '#fff',
+      heading: '#fff',
+      link: '#fff'
+    },
     primary: {
+      brand: '',
       100: '',
       90: '',
       80: '',
@@ -17,57 +19,21 @@ const dark: DefaultTheme = {
       10: ''
     },
     secondary: {
+      brand: '',
       100: '',
       90: '',
       80: '',
       50: '',
       20: '',
       10: ''
-    }
-  },
-  padding: {
-    sm: '',
-    md: '',
-    lg: ''
-  },
-  spacing: {
-    sm: 0,
-    md: 0,
-    lg: 0,
-    xl: 0
-  },
-  borderRadius: {
-    none: 0,
-    sm: 0,
-    DEFAULT: 0,
-    md: 0,
-    lg: 0,
-    full: 0
-  },
-  font: {
-    family: {
-      sans: '',
-      serif: ''
     },
-    weight: {
-      light: 0,
-      regular: 0,
-      bold: 0
-    },
-    size: {
-      sm: '',
-      md: '',
-      lg: ''
+    semantic: {
+      promo: '',
+      success: '#1B6921',
+      warning: '#AE7C21',
+      error: '#770B23'
     }
-  },
-  opacity: {
-    0: 0,
-    20: 0,
-    40: 0,
-    60: 0,
-    80: 0,
-    100: 0
   }
-}
+} as const
 
 export { dark }
