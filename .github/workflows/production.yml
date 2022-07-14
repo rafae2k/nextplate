@@ -7,18 +7,24 @@ on:
 
 jobs:
   deploy:
+    needs: [Test_and_Build]
     runs-on: ubuntu-latest
-    environment: Production
+    environment:
+      name: Production
+      url: ${{ steps.app-deploy.outputs.PREVIEW_URL }}
     steps:
-      - uses: actions/checkout@v3
+      - name: Fetch commits
+        uses: actions/checkout@v3
         with:
           fetch-depth: 0
 
-      -  uses: pnpm/action-setup@v2
-         with:
+      - name: Setup pnpm package manager
+        uses: pnpm/action-setup@v2
+        with:
           version: 6.32.9
-
-      - uses: actions/setup-node@v3
+      
+      - name: Setup Node
+        uses: actions/setup-node@v3
         with:
           node-version: '14'
           cache: 'pnpm'
@@ -35,7 +41,9 @@ jobs:
       - name: Build App
         run: pnpm build
       
-      - uses: BetaHuhn/deploy-to-vercel-action@latest
+      - name: Deploy App to Production
+        id: app-deploy
+        uses: BetaHuhn/deploy-to-vercel-action@latest
         with:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }} 

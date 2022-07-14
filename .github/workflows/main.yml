@@ -1,25 +1,29 @@
 name: CI
 
 on: 
+  push: 
+    branches: [main]
   pull_request:
-    branches:
-      - "develop"
-      - "main"
+    branches: [main]
+  workflow_dispatch:
 
 jobs:
-  Build:
+  Test_and_Build:
     runs-on: ubuntu-latest
     environment: Development
     steps:
-      - uses: actions/checkout@v3
+      - name: Fetch commits
+        uses: actions/checkout@v3
         with:
           fetch-depth: 0
 
-      -  uses: pnpm/action-setup@v2
-         with:
+      - name: Setup pnpm package manager
+        uses: pnpm/action-setup@v2
+        with:
           version: 6.32.9
 
-      - uses: actions/setup-node@v3
+      - name: Setup Node
+        uses: actions/setup-node@v3
         with:
           node-version: '14'
           cache: 'pnpm'
@@ -31,23 +35,63 @@ jobs:
         run: pnpm lint
 
       - name: Run Tests
-        run: CI=true pnpm jest
+        run: CI=true pnpm jest --coverage
       
       - name: Generate coverage report
-        run: |
-          pnpm jest --coverage
-
-      - uses: codecov/codecov-action@v3
+        uses: codecov/codecov-action@v3
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
 
       - name: Build App
         run: pnpm build
 
-      - uses: BetaHuhn/deploy-to-vercel-action@latest #deploy
+      - name: Deploy App to Development
+        uses: BetaHuhn/deploy-to-vercel-action@latest 
         with:
-          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }} # Required
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} #Optional
-          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID}} #Required
-          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID}} #Required
-          PRODUCTION: false # Don't deploy to production environment
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID}}
+          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID}}
+          PRODUCTION: false
+          GITHUB_DEPLOYMENT_ENV: Development
+  
+  Storybook:
+    runs-on: ubuntu-latest
+    environment:
+      name: Storybook
+      url: ${{ steps.storybook-deploy.outputs.PREVIEW_URL }}
+    steps:
+      - name: Fetch commits
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Setup pnpm package manager
+        uses: pnpm/action-setup@v2
+        with:
+          version: 6.32.9
+
+      - name: Setup Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: '14'
+          cache: 'pnpm'
+      
+      - name: Install dependencies  
+        run: pnpm install --frozen-lockfile
+
+      - name: Build Storybook
+        run: pnpm run storybook:build
+      
+      - name: Deploy Storybook to Development
+        id: storybook-deploy
+        uses: BetaHuhn/deploy-to-vercel-action@v1 
+        with:
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID}}
+          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_STORYBOOK_PROJECT_ID}}
+          GITHUB_DEPLOYMENT_ENV: Storybook
+          WORKING_DIRECTORY: ./storybook-static
+          PR_LABELS: storybook
+          PRODUCTION: false
