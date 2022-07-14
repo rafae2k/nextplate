@@ -88,11 +88,9 @@ jobs:
       
       - name: Deploy Storybook to Development
         id: storybook-deploy
-      - uses: amondnet/vercel-action@v20 #deploy
-        id: storybook-deploy
+        uses: amondnet/vercel-action@v20 #deploy
         with:
           vercel-token: ${{ secrets.VERCEL_TOKEN }} 
           github-token: ${{ secrets.GITHUB_TOKEN }} 
           vercel-org-id: ${{ secrets.VERCEL_ORG_ID}}}
           vercel-project-id: ${{ secrets.VERCEL_STORYBOOK_PROJECT_ID}}
-      
