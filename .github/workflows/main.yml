@@ -86,12 +86,8 @@ jobs:
       - name: Build Storybook
         run: pnpm run storybook:build
       
-      - name: Deploy Storybook to Development
-        id: storybook-deploy
-        uses: amondnet/vercel-action@v20 #deploy
+      - name: Deploy Storybook to Storybook
+        uses: chromaui/action@v1
         with:
-          vercel-token: ${{ secrets.VERCEL_TOKEN }} 
-          github-token: ${{ secrets.GITHUB_TOKEN }} 
-          vercel-org-id: ${{ secrets.VERCEL_ORG_ID}}}
-          vercel-project-id: ${{ secrets.VERCEL_STORYBOOK_PROJECT_ID}}
-      
+          projectToken: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
+          token: ${{ secrets.GITHUB_TOKEN }}
