@@ -46,6 +46,7 @@ jobs:
         run: pnpm build
 
       - name: Deploy App to Development
+        id: deploy-dev
         uses: BetaHuhn/deploy-to-vercel-action@latest 
         with:
           VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
@@ -54,6 +55,9 @@ jobs:
           VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID}}
           PRODUCTION: false
           GITHUB_DEPLOYMENT_ENV: Development
+
+      - name: what is the app url
+        run: echo ${{ steps.deploy-dev.outputs.PREVIEW_URL }}
   
   Storybook:
     runs-on: ubuntu-latest
@@ -95,3 +99,7 @@ jobs:
           WORKING_DIRECTORY: ./storybook-static
           PR_LABELS: storybook
           PRODUCTION: false
+      
+      - name: WHAT IS THE storyboook url
+        run: echo ${{ steps.storybook-deploy.outputs.PREVIEW_URL }}
+      
