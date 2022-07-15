@@ -1,11 +1,11 @@
-import TestComponent from 'components/TestComponent'
+import { Main } from 'components/Main'
 import type { NextPage } from 'next'
-import * as S from '../styles/pages/index.styles'
+import * as S from '../styles/pages/_index.styles'
 
 const Home: NextPage = () => {
   return (
     <S.Container>
-      <TestComponent />
+      <Main>Hello Rafo</Main>
     </S.Container>
   )
 }
