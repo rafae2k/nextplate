@@ -1,6 +1,28 @@
 import 'styled-components'
+import { common } from 'styles/theme'
+
+export type ThemeColors = {
+  title: 'dark' | 'light'
+  colors: {
+    background: string
+    text: {
+      heading: string
+      body: string
+      link: string
+    }
+    primary: Colors
+    secondary: Colors
+    semantic: {
+      success: string
+      warning: string
+      error: string
+      promo: string
+    }
+  }
+}
 
 export type Colors = {
+  brand: string
   100: string
   90: string
   80: string
@@ -9,66 +31,14 @@ export type Colors = {
   10: string
 }
 
-export type SecondaryColors = Colors
-
 export type NeutralColors = Colors & {
   white: string
   black: string
 }
 
+export type Theme = typeof common
+
 declare module 'styled-components' {
-  export interface DefaultTheme {
-    title: 'dark' | 'light'
-    color: {
-      neutral: NeutralColors
-      background: string
-      heading: string
-      body: string
-      primary: Colors
-      secondary: SecondaryColors
-    }
-    padding: {
-      sm: string
-      md: string
-      lg: string
-    }
-    spacing: {
-      sm: number
-      md: number
-      lg: number
-      xl: number
-    }
-    borderRadius: {
-      none: number
-      sm: number
-      DEFAULT: number
-      md: number
-      lg: number
-      full: number
-    }
-    font: {
-      family: {
-        sans: string
-        serif: string
-      }
-      weight: {
-        light: number
-        regular: number
-        bold: number
-      }
-      size: {
-        sm: string
-        md: string
-        lg: string
-      }
-    }
-    opacity: {
-      '0': number
-      '20': number
-      '40': number
-      '60': number
-      '80': number
-      '100': number
-    }
-  }
+  // eslint-disable-next-line @typescript-eslint/no-empty-interface
+  export interface DefaultTheme extends Theme {}
 }
