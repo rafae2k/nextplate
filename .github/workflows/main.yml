@@ -10,8 +10,6 @@ on:
 jobs:
   ESlint:
     runs-on: ubuntu-latest
-    environment:
-      name: Development
     steps:
       - name: Fetch commits
         uses: actions/checkout@v3
@@ -38,9 +36,6 @@ jobs:
   Tests:
     runs-on: ubuntu-latest
     needs: [ESLint]
-    environment:
-      name: Development
-      url: ${{ steps.deploy-dev.outputs.PREVIEW_URL }}
     steps:
       - name: Fetch commits
         uses: actions/checkout@v3
@@ -72,8 +67,6 @@ jobs:
   Build:
     runs-on: ubuntu-latest
     needs: [ESLint, Tests]
-    environment:
-      name: Development
     steps:
       - name: Fetch commits
         uses: actions/checkout@v3
@@ -97,7 +90,7 @@ jobs:
       - name: Build App
         run: pnpm build
 
-  Deploy-dev:
+  Deploy_Dev:
     runs-on: ubuntu-latest
     needs: [Build]
     environment:
@@ -159,7 +152,7 @@ jobs:
           DELETE_EXISTING_COMMENT: false
 
   Deploy_Production:
-    needs: [ESLint, Tests, Build, Deploy-dev]
+    needs: [ESLint, Tests, Build, Deploy_Dev]
     runs-on: ubuntu-latest
     if: github.event.pull_request.merged
 
